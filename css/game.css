@@ -1,16 +1,17 @@
-.gmae_app {
+.game_app {
     position: relative;
     min-width: 1280px;
     height: 100vh;
     overflow: hidden;
 }
 
-.gmae_app .game {
+.game_app .game {
     position: absolute;
     left: 0;
     bottom: 0;
     z-index: 10;
-    width: 70000px; /* 배경이 이동해야 되는 모션이 필요하기 때문에 값 설정 */
+    width: 70000px;
+    /* 배경이 이동해야 되는 모션이 필요하기 때문에 값 설정 */
     height: 100%;
     background-image: url('../images/bg_bottom.png');
     background-repeat: repeat-x;
@@ -18,7 +19,7 @@
     will-change: transform;
 }
 
-.gmae_app .sky {
+.game_app .sky {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -32,18 +33,43 @@
 
 /* hero대기 모션 */
 @keyframes hero_idle {
-    from {background-position-x: 0px;}
-    to {background-position-x: -1498px;}
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: -1498px;
+    }
 }
 
 @keyframes hero_run {
-    from {background-position-x: 0px;}
-    to {background-position-x: -1498px;}
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: -1498px;
+    }
 }
 
 @keyframes hero_attack {
-    from {background-position-x: 0px;}
-    to {background-position-x: -1498px;}
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: -1498px;
+    }
+}
+
+@keyframes hero_crash {
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: -299px;
+    }
 }
 
 .hero_box {
@@ -62,11 +88,13 @@
     background-size: 1498px 182px;
     animation: hero_idle 0.7s infinite steps(10);
 }
+
 .hero_box .hero.flip {
     transform: rotateY(180deg);
 }
 
-.hero_box .hero.run, .her_box .hero.run.attack {
+.hero_box .hero.run,
+.her_box .hero.run.attack {
     background-image: url("../images/ninja_run.png");
     background-size: 1498px 182px;
     animation: hero_run 0.7s infinite steps(10);
@@ -76,6 +104,19 @@
     background-image: url("../images/ninja_attack.png");
     background-size: 1498px 182px;
     animation: hero_attack 0.7s 1 steps(10);
+}
+
+.hero_box .hero.crash {
+    background-image: url("../images/ninja_crash.png");
+    background-size: 299px 182px;
+    animation: hero_crash 0.4s 1 steps(2);
+}
+
+.hero_box .hero.dead {
+    background-image: url("../images/ninja_dead.png");
+    background-size: 150px 182px;
+    animation: none;
+    transform: rotate(100deg);
 }
 
 .hero_bullet {
@@ -89,4 +130,157 @@
     height: 24px;
     z-index: 90;
     will-change: transform;
+}
+
+@keyframes monster_run {
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: -2242px;
+    }
+}
+
+.monster_box {
+    position: absolute;
+    left: 700px;
+    bottom: 0px;
+    z-index: 90;
+    width: 280px;
+    height: 294px;
+    will-change: transforml;
+}
+
+
+.monster_box.remove {
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.monster_box .monster {
+    height: 100%;
+    background-image: url('../images/monster/monster_green_run.png');
+    background-size: 2242px 294px;
+    animation: monster_run 1s infinite steps(8);
+}
+
+.monster_box .hp {
+    /* position: absolute; left: 0; top: 0; font-size: 110px; color: #fff; text-align: center; transform: translateY(-100%); */
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    border: 2px solid #000;
+    transform: translateY(-100%);
+}
+
+.monster_box .hp span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: red;
+    transition: width .3s linear;
+}
+
+@keyframes textDamage {
+    0% {
+        opacity: 0;
+        bottom: 0;
+    }
+
+    70% {
+        opacity: 1;
+        bottom: 50px;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 90px;
+    }
+}
+
+.text_damage {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    font-family: 'roboto';
+    font-size: 110px;
+    background: linear-gradient(to bottom, rgba(196, 41, 30, 1) 0%, rgba(230, 89, 191, 1) 100%);
+    -webkit-text-stroke: 5px rgba(255, 255, 255, .7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textDamage .5s ease-out;
+    animation-fill-mode: both;
+}
+
+/* 인터페이스 */
+.game_info {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 150px;
+    z-index: 20;
+}
+
+.game_info .hero_state {
+    width: 300px;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+}
+
+.game_info .hero_state .hero_img {
+    width: 20%;
+    margin: 0;
+}
+
+.game_info .hero_state .hero_img img {
+    width: 100%;
+}
+
+.game_info .hero_state .state_box {
+    width: 80%;
+    height: 100%;
+    padding-top: 10px;
+}
+
+.game_info .hero_state .state_box .hp {
+    width: 100%;
+    height: 10px;
+    border: 1px solid #000;
+}
+
+.game_info .hero_state .state_box .hp span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    transition: width .3 linear;
+}
+
+.game_over {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.game_over.active {
+    display: block;
+}
+
+.game_over p {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 150px;
 }
